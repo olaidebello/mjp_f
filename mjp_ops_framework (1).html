@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJP Electrical Services - Operational Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --grey-100: #f5f5f5;
+    --grey-200: #e8e8e8;
+    --grey-400: #a0a0a0;
+    --grey-600: #555555;
+    --blue: #1a56db;
+    --blue-light: #e8f0fe;
+    --green: #0d7a5f;
+    --green-light: #e6f7f3;
+    --amber: #b45309;
+    --amber-light: #fef3c7;
+    --red: #c0392b;
+    --red-light: #fdf0ef;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    border-bottom: 1.5px solid var(--black);
+    padding: 22px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 100;
+  }
+  .logo {
+    font-size: 13px;
+    font-family: Georgia, serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: var(--black);
+  }
+  .logo span { color: var(--grey-400); }
+  nav { display: flex; gap: 32px; }
+  nav a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--grey-600);
+    font-family: Georgia, serif;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--black); }
+
+  /* ---- HERO ---- */
+  .hero {
+    padding: 80px 60px 64px;
+    border-bottom: 1px solid var(--grey-200);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--black);
+    padding: 4px 12px;
+    margin-bottom: 24px;
+    font-family: Georgia, serif;
+  }
+  .hero-title {
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 1.15;
+    color: var(--black);
+    margin-bottom: 20px;
+    font-family: Georgia, serif;
+  }
+  .hero-title em { font-style: italic; color: var(--grey-600); }
+  .hero-body {
+    font-size: 15px;
+    color: var(--grey-600);
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 5px 14px;
+    border: 1px solid var(--grey-200);
+    color: var(--grey-600);
+    font-family: Georgia, serif;
+  }
+  .hero-right { padding-top: 8px; }
+  .context-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 16px;
+    font-family: Georgia, serif;
+  }
+  .mjp-context {
+    border-left: 3px solid var(--black);
+    padding: 20px 24px;
+    background: var(--grey-100);
+    margin-bottom: 20px;
+  }
+  .mjp-context p { font-size: 14px; color: var(--grey-600); line-height: 1.7; font-style: italic; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--grey-200); border: 1px solid var(--grey-200); }
+  .stat-cell {
+    background: var(--white);
+    padding: 16px 20px;
+  }
+  .stat-num { font-size: 22px; color: var(--black); margin-bottom: 2px; font-family: Georgia, serif; }
+  .stat-desc { font-size: 11px; color: var(--grey-400); letter-spacing: 0.06em; text-transform: uppercase; font-family: Georgia, serif; }
+
+  /* ---- SECTION WRAPPER ---- */
+  section { padding: 64px 60px; border-bottom: 1px solid var(--grey-200); }
+  .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; }
+  .section-num {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    font-family: Georgia, serif;
+    min-width: 60px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: normal;
+    color: var(--black);
+    line-height: 1.25;
+    font-family: Georgia, serif;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--grey-600);
+    line-height: 1.7;
+    margin-top: 6px;
+  }
+
+  /* ---- PROBLEM SECTION ---- */
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--grey-200); border: 1px solid var(--grey-200); margin-bottom: 24px; }
+  .prob-card {
+    background: var(--white);
+    padding: 24px 28px;
+  }
+  .prob-num {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 10px;
+    font-family: Georgia, serif;
+  }
+  .prob-text { font-size: 14px; color: var(--black); line-height: 1.65; }
+  .root-cause-bar {
+    background: var(--black);
+    color: var(--white);
+    padding: 20px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .root-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    white-space: nowrap;
+    padding-top: 2px;
+    font-family: Georgia, serif;
+    min-width: 90px;
+  }
+  .root-text { font-size: 14px; color: var(--white); line-height: 1.7; font-style: italic; }
+
+  /* ---- FRAMEWORK SECTION ---- */
+  .framework-nodes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--grey-200);
+    border: 1px solid var(--grey-200);
+    margin-bottom: 40px;
+  }
+  .fw-node {
+    background: var(--white);
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+    border-bottom: 4px solid transparent;
+  }
+  .fw-node:hover { background: var(--grey-100); }
+  .fw-node.active { background: var(--black); }
+  .fw-node.active .fw-n { color: var(--grey-400); }
+  .fw-node.active .fw-title { color: var(--white); }
+  .fw-node.active .fw-desc { color: var(--grey-400); }
+  .fw-node.c1 { border-bottom-color: #1a56db; }
+  .fw-node.c2 { border-bottom-color: #0d7a5f; }
+  .fw-node.c3 { border-bottom-color: #b45309; }
+  .fw-node.c4 { border-bottom-color: #c0392b; }
+  .fw-n {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+  }
+  .fw-title {
+    font-size: 17px;
+    font-weight: normal;
+    color: var(--black);
+    margin-bottom: 8px;
+    line-height: 1.3;
+    font-family: Georgia, serif;
+  }
+  .fw-desc {
+    font-size: 12px;
+    color: var(--grey-600);
+    line-height: 1.6;
+    font-family: Georgia, serif;
+  }
+  .fw-arrow {
+    font-size: 11px;
+    color: var(--grey-400);
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: Georgia, serif;
+  }
+  .fw-node.active .fw-arrow { color: var(--grey-600); }
+
+  /* ---- NODE DETAIL PANEL ---- */
+  .node-detail { display: none; }
+  .node-detail.active { display: block; }
+  .detail-panel {
+    border: 1px solid var(--grey-200);
+    padding: 36px 40px;
+    background: var(--grey-100);
+  }
+  .detail-panel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--grey-200);
+  }
+  .dp-badge {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    font-family: Georgia, serif;
+  }
+  .dp-title {
+    font-size: 22px;
+    font-weight: normal;
+    color: var(--black);
+    font-family: Georgia, serif;
+  }
+
+  /* Tech stack inside detail panel */
+  .dp-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .dp-col-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 16px;
+    font-family: Georgia, serif;
+  }
+  .dp-item {
+    padding: 14px 18px;
+    background: var(--white);
+    border: 1px solid var(--grey-200);
+    margin-bottom: 8px;
+  }
+  .dp-item-title {
+    font-size: 14px;
+    color: var(--black);
+    margin-bottom: 3px;
+    font-family: Georgia, serif;
+  }
+  .dp-item-sub {
+    font-size: 12px;
+    color: var(--grey-600);
+    line-height: 1.55;
+    font-family: Georgia, serif;
+  }
+  .tech-card {
+    padding: 16px 18px;
+    background: var(--white);
+    border: 1px solid var(--grey-200);
+    margin-bottom: 8px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .tech-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .tech-name {
+    font-size: 14px;
+    color: var(--black);
+    margin-bottom: 2px;
+    font-family: Georgia, serif;
+  }
+  .tech-role {
+    font-size: 12px;
+    color: var(--grey-600);
+    line-height: 1.5;
+    font-family: Georgia, serif;
+  }
+  .tech-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--grey-200);
+    padding: 2px 8px;
+    color: var(--grey-600);
+    margin-top: 6px;
+    font-family: Georgia, serif;
+  }
+
+  /* ---- PROOF SECTION ---- */
+  .proof-list { display: flex; flex-direction: column; gap: 1px; background: var(--grey-200); border: 1px solid var(--grey-200); }
+  .proof-item {
+    background: var(--white);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .proof-bar {
+    width: 3px;
+    height: 100%;
+    min-height: 40px;
+    margin-top: 3px;
+  }
+  .proof-text { font-size: 14px; color: var(--black); line-height: 1.7; }
+  .proof-text strong { font-style: normal; }
+
+  /* ---- WEEK PLAN ---- */
+  .week-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--grey-200); border: 1px solid var(--grey-200); margin-bottom: 24px; }
+  .week-card {
+    background: var(--white);
+    padding: 28px 24px;
+  }
+  .week-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+  }
+  .week-title {
+    font-size: 17px;
+    color: var(--black);
+    margin-bottom: 10px;
+    line-height: 1.3;
+    font-family: Georgia, serif;
+  }
+  .week-text { font-size: 13px; color: var(--grey-600); line-height: 1.65; }
+
+  .cta-bar {
+    background: var(--black);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .cta-bar p { font-size: 15px; color: var(--white); line-height: 1.65; font-style: italic; font-family: Georgia, serif; }
+  .cta-btn {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 10px 24px;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: Georgia, serif;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .cta-btn:hover { background: var(--white); color: var(--black); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid var(--grey-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p { font-size: 12px; color: var(--grey-400); font-family: Georgia, serif; letter-spacing: 0.04em; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 800px) {
+    header { padding: 16px 24px; }
+    nav { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 40px 24px; gap: 32px; }
+    .hero-title { font-size: 28px; }
+    section { padding: 48px 24px; }
+    .framework-nodes { grid-template-columns: 1fr 1fr; }
+    .dp-two-col { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .week-grid { grid-template-columns: 1fr; }
+    .cta-bar { flex-direction: column; align-items: flex-start; }
+    footer { flex-direction: column; gap: 8px; }
+    .stat-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">MJP Electrical Services <span>/ Operational Framework</span></div>
+  <nav>
+    <a href="#problem">The Problem</a>
+    <a href="#framework">The Framework</a>
+    <a href="#proof">Proof</a>
+    <a href="#next">Next Step</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-tag">Field Service Operations</div>
+    <h1 class="hero-title">From Separate Functions<br>to <em>One Coordinated</em><br>System</h1>
+    <p class="hero-body">The five challenges MJP faces are not independent. Utilisation gaps, quote drop-off, and inconsistent customer experience all share one root cause. This framework addresses it at the systems level, before adding headcount.</p>
+    <div class="hero-pills">
+      <span class="pill">Designed and ran end-to-end</span>
+      <span class="pill">HVAC trade background</span>
+      <span class="pill">Engineer scheduling</span>
+      <span class="pill">Quoting systems</span>
+      <span class="pill">Customer journey</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="context-label">Context: MJP Electrical Services</div>
+    <div class="mjp-context">
+      <p>"We need someone who can help run the operational engine of a fast-growing electrical business covering Bristol and Bath. Managing engineer diaries, improving utilisation, reducing white space, driving quote conversion, improving customer journey, and building operational systems that scale."</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num">500+</div>
+        <div class="stat-desc">Five-Star Google Reviews</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">Bristol & Bath</div>
+        <div class="stat-desc">Primary Service Area</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">Fast-Growth</div>
+        <div class="stat-desc">Stage: Systems Required</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">4 Layers</div>
+        <div class="stat-desc">Connected Ops Engine</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <div>
+      <div class="section-title">Five symptoms. One root cause.</div>
+      <div class="section-sub">The problems listed are not separate issues. They are the same issue appearing in different places.</div>
+    </div>
+  </div>
+  <div class="problem-grid">
+    <div class="prob-card">
+      <div class="prob-num">Symptom 01</div>
+      <div class="prob-text">Engineer diaries are not full. Utilisation is low and white space keeps reappearing despite efforts to fill it reactively.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">Symptom 02</div>
+      <div class="prob-text">Quotes go out but conversion is inconsistent. There is no structured follow-up cadence in place to close the gap.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">Symptom 03</div>
+      <div class="prob-text">The customer journey is patchy. The experience varies depending on which person handles the job, not on a system.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">Symptom 04</div>
+      <div class="prob-text">Scaling feels chaotic. The current operational setup does not hold up as job volume increases.</div>
+    </div>
+  </div>
+  <div class="root-cause-bar">
+    <div class="root-label">Root Cause</div>
+    <div class="root-text">Scheduling, quoting, and customer communications operate as separate functions rather than one connected operational engine. That is the gap. Fix the architecture, and all four symptoms resolve.</div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section id="framework">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <div>
+      <div class="section-title">The Connected Ops Engine</div>
+      <div class="section-sub">Four layers that work together. Click each node to see the full detail and recommended tech stack.</div>
+    </div>
+  </div>
+
+  <div class="framework-nodes">
+    <div class="fw-node c1 active" onclick="showNode(1)" id="node1">
+      <div class="fw-n">Layer 01</div>
+      <div class="fw-title">Diary Design</div>
+      <div class="fw-desc">Structure engineer capacity before demand, not after. Eliminate white space by design.</div>
+      <div class="fw-arrow">View detail &rarr;</div>
+    </div>
+    <div class="fw-node c2" onclick="showNode(2)" id="node2">
+      <div class="fw-n">Layer 02</div>
+      <div class="fw-title">Quote Engine</div>
+      <div class="fw-desc">Standardise output, automate follow-up, and track conversion by job type and engineer.</div>
+      <div class="fw-arrow">View detail &rarr;</div>
+    </div>
+    <div class="fw-node c3" onclick="showNode(3)" id="node3">
+      <div class="fw-n">Layer 03</div>
+      <div class="fw-title">Customer Journey</div>
+      <div class="fw-desc">Consistent touchpoints from booking to review. Not reliant on any individual.</div>
+      <div class="fw-arrow">View detail &rarr;</div>
+    </div>
+    <div class="fw-node c4" onclick="showNode(4)" id="node4">
+      <div class="fw-n">Layer 04</div>
+      <div class="fw-title">Ops Dashboard</div>
+      <div class="fw-desc">One live view of utilisation, pipeline, and satisfaction for weekly ops review.</div>
+      <div class="fw-arrow">View detail &rarr;</div>
+    </div>
+  </div>
+
+  <!-- Detail Panels -->
+  <div id="detail-1" class="node-detail active">
+    <div class="detail-panel">
+      <div class="detail-panel-header">
+        <span class="dp-badge">Layer 01</span>
+        <span class="dp-title">Diary Design - Engineer Scheduling System</span>
+      </div>
+      <div class="dp-two-col">
+        <div>
+          <div class="dp-col-title">What This Solves</div>
+          <div class="dp-item">
+            <div class="dp-item-title">Capacity rules built in advance</div>
+            <div class="dp-item-sub">Define daily capacity per engineer by job type. Set hard limits before the week opens, not after white space appears.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Job-type blocking</div>
+            <div class="dp-item-sub">Reserve morning slots for reactive work, afternoons for planned installs. Prevent one job type from cannibalising another.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Travel time baked in</div>
+            <div class="dp-item-sub">Factor Bristol to Bath transit into each booking window. Eliminates late arrivals that trigger customer complaints.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Utilisation tracking by engineer</div>
+            <div class="dp-item-sub">Know which engineers are consistently underbooked and why, before the problem compounds.</div>
+          </div>
+        </div>
+        <div>
+          <div class="dp-col-title">Recommended Tech Stack</div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#1a56db"></div>
+            <div>
+              <div class="tech-name">GoHighLevel (GHL)</div>
+              <div class="tech-role">Primary CRM and calendar engine. Booking workflows, engineer diary management, and automated appointment reminders all live here. Source of truth for who is booked where.</div>
+              <div class="tech-badge">Source of Truth / CRM</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#0d7a5f"></div>
+            <div>
+              <div class="tech-name">ClickUp</div>
+              <div class="tech-role">Internal ops workspace. Engineer capacity planning, job-type blocking rules, and scheduling SOPs live here as recurring tasks and templates. Integrates with GHL via Zapier.</div>
+              <div class="tech-badge">Task and Ops Management</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#b45309"></div>
+            <div>
+              <div class="tech-name">Zapier / Make</div>
+              <div class="tech-role">Automation layer. Connects GHL booking confirmations to ClickUp task creation and engineer notifications. No manual handoffs.</div>
+              <div class="tech-badge">Automation Bridge</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#555"></div>
+            <div>
+              <div class="tech-name">Google Sheets (transitional)</div>
+              <div class="tech-role">Weekly utilisation tracking until a live dashboard is built. Simple, visible, and shared with the ops team in week one.</div>
+              <div class="tech-badge">Interim Reporting</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-2" class="node-detail">
+    <div class="detail-panel">
+      <div class="detail-panel-header">
+        <span class="dp-badge">Layer 02</span>
+        <span class="dp-title">Quote Engine - Conversion and Follow-Up System</span>
+      </div>
+      <div class="dp-two-col">
+        <div>
+          <div class="dp-col-title">What This Solves</div>
+          <div class="dp-item">
+            <div class="dp-item-title">Templated quote output</div>
+            <div class="dp-item-sub">Every quote looks and reads the same. Consistent format signals professionalism and removes friction from the customer decision.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Automated 48-hour follow-up</div>
+            <div class="dp-item-sub">If a quote is not accepted within 48 hours, a follow-up message fires automatically. No chasing by hand. No quotes falling through gaps.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Win and loss tracking per engineer</div>
+            <div class="dp-item-sub">Know which engineers convert well and which do not. Identify the job types with the worst drop-off and address them with pricing or format changes.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Pipeline visibility</div>
+            <div class="dp-item-sub">See open quotes, their value, and their age at a glance. No revenue disappearing silently because no one followed up.</div>
+          </div>
+        </div>
+        <div>
+          <div class="dp-col-title">Recommended Tech Stack</div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#1a56db"></div>
+            <div>
+              <div class="tech-name">GoHighLevel (GHL)</div>
+              <div class="tech-role">Quote pipeline management, automated follow-up sequences, and deal stage tracking. Triggers the 48-hour follow-up SMS and email automatically when a quote is sent.</div>
+              <div class="tech-badge">Primary Pipeline CRM</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#c0392b"></div>
+            <div>
+              <div class="tech-name">HubSpot (optional layer)</div>
+              <div class="tech-role">If MJP scales to multiple service lines or wants more granular deal reporting, HubSpot sits alongside GHL as a sales CRM with stronger analytics. GHL handles ops, HubSpot handles commercial pipeline.</div>
+              <div class="tech-badge">Commercial CRM / Reporting</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#0d7a5f"></div>
+            <div>
+              <div class="tech-name">ClickUp</div>
+              <div class="tech-role">Quote review checklists, engineer quoting SOPs, and win/loss log templates. Each quote outcome is logged as a task with tags for job type, engineer, and outcome.</div>
+              <div class="tech-badge">SOP and Logging Layer</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#b45309"></div>
+            <div>
+              <div class="tech-name">Tradify / Jobber (field service)</div>
+              <div class="tech-role">Specialist quoting software built for electrical trades. Generates professional PDF quotes from job templates, integrates with GHL via webhook for follow-up automation.</div>
+              <div class="tech-badge">Trade Quoting Software</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-3" class="node-detail">
+    <div class="detail-panel">
+      <div class="detail-panel-header">
+        <span class="dp-badge">Layer 03</span>
+        <span class="dp-title">Customer Journey - Consistent Experience System</span>
+      </div>
+      <div class="dp-two-col">
+        <div>
+          <div class="dp-col-title">What This Solves</div>
+          <div class="dp-item">
+            <div class="dp-item-title">Booking confirmation sequence</div>
+            <div class="dp-item-sub">Automated SMS and email confirmation the moment a job is booked. Includes engineer name, arrival window, and what to have ready. Removes the "did anyone confirm this?" problem.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Pre-visit comms</div>
+            <div class="dp-item-sub">Morning-of reminder with engineer name and photo. Sets expectations, reduces no-access jobs, and reflects the professionalism of 500 five-star reviews.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Post-job review prompt</div>
+            <div class="dp-item-sub">Automated Google review request fires 2 hours after job marked complete. Protects the review count that MJP has built and compounds it going forward.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Consistent regardless of who handles the job</div>
+            <div class="dp-item-sub">The customer experience is the same whether the office has two people or twelve. It runs on the system, not the individual.</div>
+          </div>
+        </div>
+        <div>
+          <div class="dp-col-title">Recommended Tech Stack</div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#1a56db"></div>
+            <div>
+              <div class="tech-name">GoHighLevel (GHL)</div>
+              <div class="tech-role">Full customer journey automation. Booking confirmation, pre-visit reminder, post-job review request, and re-engagement sequences all built as GHL workflows. One platform handles the entire touchpoint chain.</div>
+              <div class="tech-badge">Journey Automation Core</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#0d7a5f"></div>
+            <div>
+              <div class="tech-name">ClickUp</div>
+              <div class="tech-role">Customer journey SOP documentation. Each touchpoint is a checklist item so the team knows what fires automatically and what requires manual action. Onboards new staff in hours, not weeks.</div>
+              <div class="tech-badge">SOP Documentation</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#c0392b"></div>
+            <div>
+              <div class="tech-name">Trustpilot / Google Business Profile</div>
+              <div class="tech-role">Review destination for post-job prompts. GHL sends the link directly via SMS. Maintains and grows the 500+ review bank that differentiates MJP in Bristol and Bath.</div>
+              <div class="tech-badge">Reputation Management</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#b45309"></div>
+            <div>
+              <div class="tech-name">WhatsApp Business (via GHL)</div>
+              <div class="tech-role">Pre-visit and day-of communications via WhatsApp for higher open rates. GHL handles WhatsApp messaging natively. Particularly effective for residential customers.</div>
+              <div class="tech-badge">High-Open-Rate Comms</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-4" class="node-detail">
+    <div class="detail-panel">
+      <div class="detail-panel-header">
+        <span class="dp-badge">Layer 04</span>
+        <span class="dp-title">Ops Dashboard - Live Visibility System</span>
+      </div>
+      <div class="dp-two-col">
+        <div>
+          <div class="dp-col-title">What This Solves</div>
+          <div class="dp-item">
+            <div class="dp-item-title">Single view of utilisation</div>
+            <div class="dp-item-sub">Live engineer utilisation rate by day and week. Flags underbooked engineers before the week is lost, not after.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Live quote pipeline</div>
+            <div class="dp-item-sub">Total open quote value, age by stage, and conversion rate by engineer. Reviewed weekly in the ops meeting and acted on the same day.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Customer satisfaction score</div>
+            <div class="dp-item-sub">Average review score and review velocity tracked weekly. Connects customer experience directly to ops performance in one view.</div>
+          </div>
+          <div class="dp-item">
+            <div class="dp-item-title">Used in weekly ops review from day one</div>
+            <div class="dp-item-sub">Not a project for month three. A simple version is live in week one so decisions are driven by data from the start.</div>
+          </div>
+        </div>
+        <div>
+          <div class="dp-col-title">Recommended Tech Stack</div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#1a56db"></div>
+            <div>
+              <div class="tech-name">GoHighLevel (GHL)</div>
+              <div class="tech-role">Built-in reporting dashboards for pipeline, booking activity, and campaign performance. Serves as the live data layer for the ops review. No additional BI tool needed in the early stage.</div>
+              <div class="tech-badge">Live Ops Dashboard</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#0d7a5f"></div>
+            <div>
+              <div class="tech-name">ClickUp Dashboards</div>
+              <div class="tech-role">Internal ops health view. Tracks task completion rates, SOP adherence, and weekly priorities in one shared board used by the ops manager and founder in the weekly review.</div>
+              <div class="tech-badge">Internal Ops Review Board</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#c0392b"></div>
+            <div>
+              <div class="tech-name">HubSpot Reports (if adopted)</div>
+              <div class="tech-role">If HubSpot is brought in for commercial pipeline, its reporting layer provides deal velocity, conversion funnels, and revenue forecasts that GHL does not cover at the same depth.</div>
+              <div class="tech-badge">Commercial Analytics</div>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-dot" style="background:#b45309"></div>
+            <div>
+              <div class="tech-name">Google Looker Studio</div>
+              <div class="tech-role">Connects GHL and Google Sheets data into a single visual dashboard for the founder. Free, fast to build, and requires no technical expertise to read in the weekly meeting.</div>
+              <div class="tech-badge">Founder Reporting View</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <div>
+      <div class="section-title">I did not design this from a desk.</div>
+      <div class="section-sub">At an HVAC business facing the same operational setup, this system was designed and run end-to-end.</div>
+    </div>
+  </div>
+  <div class="proof-list">
+    <div class="proof-item">
+      <div class="proof-bar" style="background:#1a56db"></div>
+      <div class="proof-text"><strong>Rebuilt the scheduling system.</strong> Introduced capacity rules and job-type blocking that reduced white space within the first six weeks. Engineers moved from reactive gap-filling to structured diary design.</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-bar" style="background:#0d7a5f"></div>
+      <div class="proof-text"><strong>Standardised the quoting process.</strong> Templated output, defined follow-up windows, and tracked conversion per engineer for the first time. Made the invisible visible.</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-bar" style="background:#b45309"></div>
+      <div class="proof-text"><strong>Built the customer journey from scratch.</strong> Booking confirmation, pre-visit comms, and post-job review prompt all automated and consistent, regardless of who was in the office that day.</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-bar" style="background:#c0392b"></div>
+      <div class="proof-text"><strong>Created the ops dashboard.</strong> Single view of utilisation, live pipeline, and satisfaction score. Used in the weekly ops review from day one, not month three.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEP -->
+<section id="next">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <div>
+      <div class="section-title">What I would look at first at MJP.</div>
+      <div class="section-sub">Before any new hire or system investment, these three audits show where the biggest gains are.</div>
+    </div>
+  </div>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="week-label">Week 1</div>
+      <div class="week-title">Diary Audit</div>
+      <div class="week-text">Map actual utilisation versus booked capacity per engineer. Identify recurring white space patterns by day of week, job type, and area. Sets the baseline.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 2</div>
+      <div class="week-title">Quote Conversion Audit</div>
+      <div class="week-text">Identify the drop-off point and follow-up gaps. Pull the last three months of quotes, map each outcome, and find the stage where revenue is being lost silently.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-label">Week 3</div>
+      <div class="week-title">Customer Journey Map</div>
+      <div class="week-text">Walk through the current experience from first enquiry to post-job review. Find where consistency breaks down by job type and who is responsible for each touchpoint today.</div>
+    </div>
+  </div>
+  <div class="cta-bar">
+    <p>I would like 20 minutes to walk through how this applies to MJP's current setup and where the fastest gains are. Happy to do that this week.</p>
+    <a href="mailto:" class="cta-btn">Request 20 Minutes</a>
+  </div>
+</section>
+
+<footer>
+  <p>MJP Electrical Services - Operational Framework</p>
+  <p>Bristol &amp; Bath Field Service Operations</p>
+</footer>
+
+<script>
+  function showNode(n) {
+    // Remove active from all nodes
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('node' + i).classList.remove('active');
+      document.getElementById('detail-' + i).classList.remove('active');
+    }
+    document.getElementById('node' + n).classList.add('active');
+    document.getElementById('detail-' + n).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
